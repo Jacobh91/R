@@ -1,0 +1,11 @@
+```{r}
+alcohol <- read.csv("indicator alcohol consumption  20100830.csv", header=T)
+work <- read.csv("indicator_hours per week.csv", header=T)
+merged <- merge(alcohol, work, by="country")
+ggplot(aes(x=X2005.x, y=X2005.y), data = na.omit(merged))+geom_point() + ylab("hours worked") + xlab("alcohol consumed in liters") + stat_smooth(method="loess", formula= y~x) 
+
+linear <- lm(X2005.x ~ X2005.y, data = merged)
+abline(linear)
+
+correct = na.omit(merged)
+cor(correct$X2005.y, correct$X2005.x)
